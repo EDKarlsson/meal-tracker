@@ -27,3 +27,15 @@ Shows screen content and how they transition
 Elements that appear in the UI are known as views and these views display content to the user.
 
 All view objects in iOS are of type __UIView__ or one of its subclasses.
+
+## View Hierarchy
+The view hierarch defines the layout of views relative to other views. Within each view enclosed in another view is called a subview, and the parent is called a superview.
+
+## Auto Layout
+Auto layout is a tool that allows for the design of adaptive layouts by describing the intent of the position of elements in a scene. These intents are defined using constraints.
+
+__UIStackView__ provides a streamlined interface for laying out a collection of views in either a column or a row.
+
+_Text fields_ are sized based on their contents, which define their intrinsic content size.
+
+_Intrinsic content size_: The minimum size needed to display all the content in a view without clipping or distorting that content.
