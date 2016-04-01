@@ -8,12 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate,
+class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate,
     UINavigationControllerDelegate {
 
     // MARK: Properties
     @IBOutlet var nameTextField: UITextField!
-    @IBOutlet var mealNameLabel: UILabel!
     @IBOutlet var photoImageView: UIImageView!
     
     @IBOutlet var ratingController: RatingControl!
@@ -40,7 +39,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
     // This method allows us to read the information for the text field once the user has finished entering in information
     // It is called after text field resigns its first responder status
     func textFieldDidEndEditing(textField: UITextField) {
-        mealNameLabel.text = textField.text
+        // TODO: Will be implemented soon
     }
     
 
