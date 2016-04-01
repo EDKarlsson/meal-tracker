@@ -75,49 +75,26 @@ class MealTableViewController: UITableViewController {
         return cell
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func unwindToMealList(sender: UIStoryboardSegue){
+        // This code is kind of crazy
+        // This conditional statement uses the optional type cast operator(as?) to try to downcast the source
+        //  the view controller of the segue to type MealViewController.
+        //  It will check to see if the downcast is was successful and if it was then it will assign the sourceViewController
+        //  meal to the new meal. If the new meal is not nil then it will execute the if statement.
+        if let sourceViewController = sender.sourceViewController as? MealViewController, meal = sourceViewController.meal {
+            // Add a new meal
+            // This will determine where in the table view the new meal will be placed.
+            let newIndexPath = NSIndexPath(forRow: meals.count, inSection: 0)
+            
+            // Adds the new meal to existing list of meals in the data model
+            meals.append(meal)
+            
+            // This animates the addition of new row to the table view for the new meal
+            //  .Bottom is an option of what type of animation, the row will slide in from the bottom.
+            tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
+        }
+        
     }
-    */
-
 }
