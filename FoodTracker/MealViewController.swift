@@ -32,6 +32,9 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         
         // Handle the text fields user input through delegate callbacks.
         nameTextField.delegate = self
+        
+        // Enable the save button only if the tet field has a valid Meal name
+        checkValidMealName()
     }
     
     // MARK: UITextFieldDelegate
@@ -46,9 +49,24 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     // This method allows us to read the information for the text field once the user has finished entering in information
     // It is called after text field resigns its first responder status
     func textFieldDidEndEditing(textField: UITextField) {
-        // TODO: Will be implemented soon
+        // Will check if the text field has text in it which if true enables save button
+        checkValidMealName()
+        
+        // Sets the title of the scene to that text.
+        navigationItem.title = textField.text
     }
     
+    // This method will disable the save button if the user has not entered in any information.
+    func textFieldDidBeginEditing(textField: UITextField) {
+        saveButton.enabled = false
+    }
+    
+    // This helper method will disable the save button if the text field is empty.
+    func checkValidMealName() {
+        // Disable the save button if the text field is empty.
+        let text = nameTextField.text ?? ""
+        saveButton.enabled = !text.isEmpty
+    }
 
     // MARK: UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -71,6 +89,9 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     }
     // MARK: Navigation
     
+    @IBAction func cancel(sender: UIBarButtonItem) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
     // This method lets you configure a view controller before it's presented
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if saveButton === sender {
