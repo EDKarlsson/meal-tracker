@@ -43,25 +43,37 @@ class MealTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    // This method tells the table view how many sections to display.
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
+    // This method tells the table view how many rows to display in a given section.
+    //  Default is a single section.
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        // We want to have each meal in the application to have its own row in that section
+        return meals.count
     }
 
-    /*
+    // This method peforms a few tasks:
+    //  Asks the table view for a cell with a placeholder identifier, adds a comment about where code to configure the
+    //  cell should go, and then returns the cell.
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        let cellIdentifier = "MealTableViewCell"
+        
+        // We down ast the type because we created a custom cell class
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! MealTableViewCell
 
-        // Configure the cell...
+        // Fetches the appropriate meal for teh data source layout
+        let meal = meals[indexPath.row]
 
+        // Assign each cell with the specific information about a given meal
+        cell.nameLabel.text = meal.name
+        cell.photoImageView.image = meal.photo
+        cell.ratingControl.rating = meal.rating
+        
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
