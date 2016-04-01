@@ -108,6 +108,11 @@
                                         </view>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nameLabel" destination="3L5-LD-UB7" id="eqr-Wd-1Uq"/>
+                                    <outlet property="photoImageView" destination="z9V-IM-cG0" id="xOD-9b-B3w"/>
+                                    <outlet property="ratingControl" destination="Aj0-Qh-eCd" id="q2A-G0-Trz"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
