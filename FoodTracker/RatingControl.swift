@@ -12,8 +12,12 @@ class RatingControl: UIView {
     
     // MARK: Properties
     
-    var rating = 0
-    
+    var rating = 0 {
+        didSet {
+            // This will update the ratings property to include this property observer
+            setNeedsLayout()
+        }
+    }
     // An array of rating buttons
     var ratingButtons = [UIButton]()
     
@@ -70,6 +74,8 @@ class RatingControl: UIView {
             buttonFrame.origin.x = CGFloat(index * (buttonSize + spacing))
             button.frame = buttonFrame
         }
+        
+        updateButtonSelectedStates()
     }
     
     override func intrinsicContentSize() -> CGSize {
@@ -83,7 +89,19 @@ class RatingControl: UIView {
     
     // MARK: Button Action
     func ratingButtonTapped(button: UIButton){
-        print("Button pressed :thumbup:")
+        // This will attempt to find the selected button in the array of buttons and to return
+        //  the index at which it was found.
+        rating = ratingButtons.indexOf(button)! + 1
+        
+        updateButtonSelectedStates()
+    }
+    
+    
+    func updateButtonSelectedStates(){
+        for(index, button) in ratingButtons.enumerate() {
+            // If the index of a button is less than the rating, that button should be selected.
+            button.selected = index < rating
+        }
     }
     
 }
