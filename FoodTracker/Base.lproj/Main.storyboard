@@ -7,7 +7,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Meal View Controller-->
+        <!--New Meal-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MealViewController" customModule="FoodTracker" customModuleProvider="target" sceneMemberID="viewController">
@@ -55,7 +55,10 @@
                             <constraint firstAttribute="trailingMargin" secondItem="RgK-BU-ndG" secondAttribute="trailing" id="ga8-u5-U0y"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="vk0-dg-8VY"/>
+                    <navigationItem key="navigationItem" title="New Meal" id="vk0-dg-8VY">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="hlq-jk-tGi"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="U3z-SR-Joq"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="nameTextField" destination="tZU-T6-9kt" id="wTj-4M-4Ge"/>
                         <outlet property="photoImageView" destination="pFj-YQ-GVA" id="uJr-MT-wzq"/>
