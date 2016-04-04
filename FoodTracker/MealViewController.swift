@@ -33,6 +33,14 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         // Handle the text fields user input through delegate callbacks.
         nameTextField.delegate = self
         
+        
+        if let meal = meal {
+            navigationItem.title    = meal.name
+            nameTextField.text      = meal.name
+            photoImageView.image    = meal.photo
+            ratingController.rating = meal.rating
+        }
+        
         // Enable the save button only if the tet field has a valid Meal name
         checkValidMealName()
     }
@@ -79,7 +87,7 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         
         // The info dictionary contains multiple representations of the image and this uses the original.
-        let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let selectedImage   = info[UIImagePickerControllerOriginalImage] as! UIImage
         
         // Set the photImageView to display the selected image
         photoImageView.image = selectedImage
@@ -89,15 +97,25 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
     }
     // MARK: Navigation
     
+    
     @IBAction func cancel(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
+        
+        //Depending on style of presenttation(modal or push presentation), this view controller needs to be dismissed intwo different ways.
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+        
+        if isPresentingInAddMealMode {
+            dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            navigationController!.popViewControllerAnimated(true)
+        }
+        
     }
     // This method lets you configure a view controller before it's presented
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if saveButton === sender {
-            let name = nameTextField.text ?? ""
-            let photo = photoImageView.image
-            let rating = ratingController.rating
+            let name    = nameTextField.text ?? ""
+            let photo   = photoImageView.image
+            let rating  = ratingController.rating
             
             // Set the meal to be passed to MealTableViewController after the unwind segue.
             meal = Meal(name: name, photo: photo, rating: rating)
