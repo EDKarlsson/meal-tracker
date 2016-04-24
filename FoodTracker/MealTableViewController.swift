@@ -14,14 +14,19 @@ class MealTableViewController: UITableViewController {
     
     var meals = [Meal]()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Use the edit button tem provided by the table view controllei
         navigationItem.leftBarButtonItem = editButtonItem()
-        // Load the sample data.
-        loadSampleMeals()
+        
+        // Load any saved mels, otherwise load sample data
+        if let savedMeals = loadMeals() {
+            meals += savedMeals
+        } else {
+            // Load the sample data.
+            loadSampleMeals()
+        }
     }
     
     func loadSampleMeals() {
@@ -36,7 +41,6 @@ class MealTableViewController: UITableViewController {
         
         meals += [meal1, meal2, meal3]
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -84,7 +88,8 @@ class MealTableViewController: UITableViewController {
         
         // This code ocmpares the segue identifiers against the identifier string assigned to them earlier
         if segue.identifier == "ShowDetail" {
-            // This tries to downcast the destination view controller of the segue to a MealViewController using the forced type cast operator (as!) - The exclamation mark means it is forcing the downcast
+            // This tries to downcast the destination view controller of the segue to a MealViewController
+            //      using the forced type cast operator (as!) - The exclamation mark means it is forcing the downcast
             let mealDetailviewController = segue.destinationViewController as! MealViewController
             
             // Get the cell that genrated this segue
@@ -98,10 +103,12 @@ class MealTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle,
+                            forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
             meals.removeAtIndex(indexPath.row)
+            saveMeals()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate clas, insert it into the array, and add a new row to the table view.
@@ -141,6 +148,22 @@ class MealTableViewController: UITableViewController {
                 //  .Bottom is an option of what type of animation, the row will slide in from the bottom.
                 tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Bottom)
             }
+            // Save the meals
+            saveMeals()
         }
+    }
+    
+    // MARK: NSCoding
+    func saveMeals() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(meals, toFile: Meal.ArchiveUrl.path!)
+        
+        if !isSuccessfulSave {
+            print("Failed to save meals...")
+        }
+    }
+    
+    // This method attempts to unarchive the object stored at the path Meal.ArchiveURL.path! and downcast that object to an array of Meal Objects. Utilizes as? operator to be able to return nil when the array may or may not have been stored.
+    func loadMeals() -> [Meal]? {
+        return NSKeyedUnarchiver.unarchiveObjectWithFile(Meal.ArchiveUrl.path!) as? [Meal]
     }
 }
